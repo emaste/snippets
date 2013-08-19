@@ -1,3 +1,5 @@
+/* http://llvm.org/bugs/show_bug.cgi?id=16931 */
+
 #include <stdatomic.h>
 #include <stdio.h>
 
