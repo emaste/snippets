@@ -66,8 +66,8 @@ void *thread_proc(void *arg)
 {
     g_tls = (int)(intptr_t)arg;
 
-    logit("pthread_setname_np('%s')\n", g_threadname);
     snprintf(g_threadname, sizeof(g_threadname), "thread_%d", g_tls);
+    logit("pthread_setname_np('%s')\n", g_threadname);
     setname(g_threadname);
     logit("sleep(5)\n");
     sleep(5);
