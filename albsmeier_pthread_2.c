@@ -1,3 +1,9 @@
+/*
+ * Andre Albsmeier's pthread resource consumption demo, from
+ * http://lists.freebsd.org/pipermail/freebsd-hackers/2014-February/044280.html
+ *
+ * cc -g -Wall -lpthread albsmeier_pthread_2.c
+ */
 #include <stdio.h>
 #include <unistd.h>
 #include <pthread.h>
