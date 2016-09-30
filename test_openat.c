@@ -53,6 +53,9 @@ main(int argc, char *argv[])
 	touchat(dirfd, "d1/d2/f2");
 	touchat(dirfd, "d1/d2/d3/f3");
 	assert(symlinkat("d1/d2/d3", dirfd, "l3") == 0);
+	assert(symlinkat("../testdir/d1", dirfd, "lup") == 0);
+	assert(symlinkat("../..", dirfd, "d1/d2/d3/ld1") == 0);
+	assert(symlinkat("../../f1", dirfd, "d1/d2/d3/lf1") == 0);
 
 	// Basic passing cases.
 	assert_openat(dirfd, "d1/d2/d3/f3");
@@ -60,6 +63,9 @@ main(int argc, char *argv[])
 	assert_openat(dirfd, "l3/f3");
 	assert_openat(dirfd, "l3/../../f1");
 	assert_openat(dirfd, "../testdir/d1/f1");
+	assert_openat(dirfd, "lup/f1");
+	assert_openat(dirfd, "l3/ld1");
+	assert_openat(dirfd, "l3/lf1");
 
 	// Basic failing cases.
 	assert_openat_fail(dirfd, "does-not-exist", ENOENT);
@@ -80,10 +86,15 @@ main(int argc, char *argv[])
 #if 1	// How Capsicum actually works.
 	assert_openat_fail(dirfd, "d1/d2/d3/../../f1", ENOTCAPABLE);
 	assert_openat_fail(dirfd, "l3/../../f1", ENOTCAPABLE);
+	assert_openat_fail(dirfd, "l3/ld1", ENOTCAPABLE);
+	assert_openat_fail(dirfd, "l3/lf1", ENOTCAPABLE);
 #else	// How Capsicum could work. These paths are still under dirfd.
 	assert_openat(dirfd, "d1/d2/d3/../../f1");
 	assert_openat(dirfd, "l3/../../f1");
+	assert_openat(dirfd, "l3/ld1");
+	assert_openat(dirfd, "l3/lf1");
 #endif
 
 	assert_openat_fail(dirfd, "../testdir/d1/f1", ENOTCAPABLE);
+	assert_openat_fail(dirfd, "lup/f1", ENOTCAPABLE);
 }
