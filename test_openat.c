@@ -1,3 +1,12 @@
+/*
+ * Demonstration of open/openat return values and errors in capability mode,
+ * and possible change with respect to paths containing "..".
+ *
+ * This is a basic single threaded demonstration of expected return values,
+ * and does not address concurrency or consider attempts to subvert the
+ * capability mode sandbox.
+ */
+
 #include <sys/capsicum.h>
 #include <sys/stat.h>
 #include <assert.h>
